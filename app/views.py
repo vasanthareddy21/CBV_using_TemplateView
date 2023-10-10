@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 
 from app.forms import *
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView,FormView,ListView
 from django.http import HttpResponse
 
 class Temp(TemplateView):
@@ -18,5 +18,19 @@ class Temp(TemplateView):
         if SFDO.is_valid():
             SFDO.save()
             return HttpResponse('Data is inserted succesfully')
+
+class StudentInsertForm(FormView):
+    form_class=StudentForm
+    template_name='StudentInsertForm.html'
+    def form_valid(self,form):
+        form.save()
+        return HttpResponse('Data is inserted Successfully')
+
+class DisplayStudent(ListView):
+    model=Student
+    template_name='DisplayStudent.html'
+    context_object_name='sclist'
+    ordering=['Sage']
+
 
 
